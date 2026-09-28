@@ -16,8 +16,13 @@ $ ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:={UR_TYPE} initi
 
 ## Franka Research 3
 
+Start the FR3 Gazebo simulation from franka_ros2 with the joint velocity controller, which forwards the velocity commands published by OpenHRC.
 
+$ ros2 launch franka_gazebo_bringup gazebo_franka_arm_example_controller.launch.py controller:=joint_velocity_controller gazebo_effort:=false load_gripper:=true rviz:=false
 
+Then use robot:=fr3 e.g.:
+
+$ ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=fr3
 
 
 

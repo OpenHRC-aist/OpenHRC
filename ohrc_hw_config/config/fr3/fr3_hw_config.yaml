@@ -2,12 +2,13 @@
   ros__parameters:
     fr3:
       chain_start: "fr3_link0" # base frame of commands
-      chain_end: "fr3_hand_tcp" # target eff frame
+      chain_end: "fr3_link8" # flange frame (fr3_hand_tcp does not exist without the hand)
 
       publisher: "Velocity" # "Position" or "Velocity" or "Trajectory" or "TrajectoryAction"
-      topic_namespace: "joint_impedance_velocity_controller" # topic namespace for this robot
+      topic_namespace: "joint_velocity_controller" # velocity_controllers/JointGroupVelocityController in franka_gazebo_controllers.yaml
 
       initIKAngle: [0.0, 0.0, -0.7, -2.5, -1.0, 1.5, 0.7] # size of this should be equal to DoF
 
       # initial_pose_frame: test # default frame is same as chain_start
+      # Flange pose equivalent to the fr3_sim hand TCP pose [0.4, 0.0, 0.4, pi, 0, 0]
       initial_pose: [0.4, 0.0, 0.4, 3.141592, 0.0, 0.0] # [x, y, z, roll, pitch, yaw]
