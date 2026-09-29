@@ -13,7 +13,16 @@
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, MITv2.1, MITv3 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>ur_simulation_gz</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
+  <exec_depend>gz_ros2_control</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>velocity_controllers</exec_depend>
+  <exec_depend>xacro</exec_depend>
   <license>TODO</license>
 
 

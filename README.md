@@ -43,29 +43,30 @@ In the following instruction, the ros2 workspace directory is assumed to be `~/r
 
 ### Clone the Source Code and install dependencies
 ```bash
-$ mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src
-$ git clone https://github.com/OpenHRC/OpenHRC.git -b ros2 --recursive
-$ rosdep update && rosdep install -i -y --from-paths ./ 
+mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src
+git clone https://github.com/OpenHRC/OpenHRC.git -b ros2 --recursive
+./OpenHRC/setup.sh
+rosdep update && rosdep install -i -y --from-paths ./ --ignore-src --skip-keys franka_mobile_sensors
 ```
 
 
 ### Build
 
 ```bash
-$ cd ~/ros2_ws
-$ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+cd ~/ros2_ws
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
 ### Test Demo
 
 #### UR5e Gazebo simulation
 ```bash
-$ ros2 launch ur_simulation_gz ur_sim_control.launch.py initial_joint_controller:=forward_velocity_controller launch_rviz:=false
+ros2 launch ur_simulation_gz ur_sim_control.launch.py initial_joint_controller:=forward_velocity_controller launch_rviz:=false
 ```
 
 #### teleoperation with InteractiveMarker
 ```bash 
-$ ros2 launch ohrc_teleoperation marker_teleoperation.launch.py
+ros2 launch ohrc_teleoperation marker_teleoperation.launch.py
 ```
 
 ## Getting Started

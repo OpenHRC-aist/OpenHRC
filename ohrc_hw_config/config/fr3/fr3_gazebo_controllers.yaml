@@ -1,0 +1,27 @@
+# ros2_control controllers for the FR3 Gazebo simulation used by OpenHRC.
+# Replaces franka_gazebo_bringup/config/franka_gazebo_controllers.yaml
+# (see launch/fr3_gazebo.launch.py).
+/**:
+  controller_manager:
+    ros__parameters:
+      update_rate: 1000  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      # Forwards the joint velocity commands published by OpenHRC
+      # (std_msgs/Float64MultiArray on /joint_velocity_controller/commands).
+      joint_velocity_controller:
+        type: velocity_controllers/JointGroupVelocityController
+
+/**:
+  joint_velocity_controller:
+    ros__parameters:
+      joints:
+        - fr3_joint1
+        - fr3_joint2
+        - fr3_joint3
+        - fr3_joint4
+        - fr3_joint5
+        - fr3_joint6
+        - fr3_joint7
