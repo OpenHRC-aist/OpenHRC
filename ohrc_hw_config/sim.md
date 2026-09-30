@@ -19,7 +19,7 @@ ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:={UR_TYPE} initial
 Run the following command to start the Franka3 gazebo simulation, which has been installed automatically with OpenHRC:
 
 ```bash
-ros2 launch ohrc_hw_config fr3_gazebo.launch.py load_gripper:=false
+ros2 launch ohrc_hw_config fr3_gazebo.launch.py
 ```
 
 Then use robot:=fr3 e.g.:
