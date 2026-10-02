@@ -1,0 +1,15 @@
+/**:
+  ros__parameters:
+    xarm6:
+      chain_start: "link_base" # base frame of commands
+      chain_end: "link_eef" #"link7" # target eff frame
+
+
+      publisher: "Velocity" # "Position" or "Velocity" or "Trajectory" or "TrajectoryAction"
+      topic_namespace: "xarm6_vel_controller"
+
+
+      initIKAngle: [0.0, -0.6, -1.0, 0.0, 0.8, 0.0] # size of this should be equal to DoF
+
+      # initial_pose_frame: test # default frame is same as chain_start
+      initial_pose: [0.4, 0.0, 0.5, 3.2, 0.0, 0.0] 

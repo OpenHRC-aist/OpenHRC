@@ -1,0 +1,29 @@
+/**:
+  ros__parameters:
+    # chain_start: "base" # base frame of commands
+    # chain_end: "link7" # target eff frame
+    root_frame: "world" # IK calculation base frame (for multi-follower)
+
+    controller: "Velocity" # "Position" or "Velocity"
+    # publisher: "Velocity" # "Position" or "Velocity" or "Trajectory" or "TrajectoryAction"
+    # topic_namespace: "joint_velocity_controller"
+
+    solver: "MyIK"
+
+    control_freq: 250.0
+
+
+    # initIKAngle: [0, 0, 0, 0, 0, 0, 0]
+    # initial_pose: [0.4, 0.0, 0.3, 0.0, 3.141592, 0]
+
+    follower:
+      hw: ["xarm6"] # robot config name, which needs to be defined in hw_config.yaml
+      ns: # robot namespaces for each robot, which should be unique among all robots. ("") means the robot has no namespace
+        xarm6: [""]
+
+    priority: "Manual" #"Automation" #  (for multi-follower)
+    MF_mode: "Parallel" # "Individual" #  (for multi-follower)
+
+    # Type of solving IK. "Concatenated" mode solve IK for all robots at once. "Order" mode solve IK for each robot in order. "Parallel" mode solve IK for all robots in multi thread.
+    # When you operate single robot, "Concatenated" mode is equivalent to "Order" mode.
+    IK_mode: "Concatenated" # "Order" # "Parallel" #

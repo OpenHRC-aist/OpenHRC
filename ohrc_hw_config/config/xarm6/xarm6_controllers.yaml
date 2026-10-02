@@ -1,0 +1,24 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 250  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # xarm6_traj_controller:
+      # type: joint_trajectory_controller/JointTrajectoryController
+
+
+    xarm6_vel_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+xarm6_vel_controller:
+  ros__parameters:
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+    interface_name: velocity
