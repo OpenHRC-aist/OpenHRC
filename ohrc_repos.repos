@@ -11,4 +11,11 @@ repositories:
     type: git
     url: https://github.com/xArm-Developer/xarm_ros2.git
     version: humble
-    
+  crane_x7_ros:
+    type: git
+    url: https://github.com/rt-net/crane_x7_ros.git
+    version: humble
+  crane_x7_description:
+    type: git
+    url: https://github.com/rt-net/crane_x7_description.git
+    version: humble

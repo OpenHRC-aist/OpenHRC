@@ -1,0 +1,36 @@
+# ros2_control controllers for the CRANE-X7 Gazebo simulation used by OpenHRC.
+# Replaces crane_x7_control/config/crane_x7_controllers.yaml
+# (see crane_x7_sim_control.launch.py).
+/**:
+  controller_manager:
+    ros__parameters:
+      update_rate: 500  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      # Forwards the joint velocity commands published by OpenHRC
+      # (std_msgs/Float64MultiArray on /joint_velocity_controller/commands).
+      joint_velocity_controller:
+        type: velocity_controllers/JointGroupVelocityController
+
+      crane_x7_gripper_controller:
+        type: position_controllers/GripperActionController
+
+/**:
+  joint_velocity_controller:
+    ros__parameters:
+      joints:
+        - crane_x7_shoulder_fixed_part_pan_joint
+        - crane_x7_shoulder_revolute_part_tilt_joint
+        - crane_x7_upper_arm_revolute_part_twist_joint
+        - crane_x7_upper_arm_revolute_part_rotate_joint
+        - crane_x7_lower_arm_fixed_part_joint
+        - crane_x7_lower_arm_revolute_part_joint
+        - crane_x7_wrist_joint
+
+/**:
+  crane_x7_gripper_controller:
+    ros__parameters:
+      joint: crane_x7_gripper_finger_a_joint
+      goal_tolerance: 0.1

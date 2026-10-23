@@ -1,9 +1,13 @@
-crane_x7:
-  chain_start: "base_link" # base frame of commands
-  chain_end: "crane_x7_gripper_base_link" # target eff frame
+/**:
+  ros__parameters:
+    crane_x7:
+      chain_start: "base_link" # base frame of commands
+      chain_end: "crane_x7_gripper_base_link" # target eff frame
 
-  publisher: "Trajectory" # "Position" or "Velocity" or "Trajectory" or "TrajectoryAction"
-  topic_namespace: "/crane_x7/arm_controller"
+      publisher: "Velocity" # "Position" or "Velocity" or "Trajectory" or "TrajectoryAction"
+      topic_namespace: "joint_velocity_controller" # velocity_controllers/JointGroupVelocityController in crane_x7_gazebo_controllers.yaml
 
-  initIKAngle: [0, 0.8, 0, -2.0, 0, -0.4, 0] # size of this should be equal to DoF
-  initial_pose: [0.08, 0.0, 0.37, 0, 1.57079, 0] # [x, y, z, roll, pitch, yaw]
+      initIKAngle: [0.0, 0.3, 0.0, -2.0, 0.0, -1.44, 0.0] # size of this should be equal to DoF
+
+      # initial_pose_frame: test # default frame is same as chain_start
+      initial_pose: [0.2, 0.0, 0.25, 0.0, 3.141592, 0.0] # [x, y, z, roll, pitch, yaw], gripper pointing down

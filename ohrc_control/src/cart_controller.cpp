@@ -407,6 +407,7 @@ int CartController::moveInitPos(const KDL::JntArray& q_cur, const KDL::JntArray&
       RCLCPP_INFO_STREAM(node->get_logger(), "Successfuly solved initial joint angles.");
 
     s_moveInitPos.isFirst = false;
+    s_moveInitPos.isSentTrj = false;
 
     s_moveInitPos.t_s = node->get_clock()->now();
 
@@ -421,7 +422,8 @@ int CartController::moveInitPos(const KDL::JntArray& q_cur, const KDL::JntArray&
   bool lastLoop = false;
   double s = 0.0, s2, s3, s4, s5;
   s = (node->get_clock()->now() - s_moveInitPos.t_s).nanoseconds() * 1.0e-9 / T;
-  if (s > 1.0 || (publisher == PublisherType::Trajectory && s > dt / T)) {
+  // Wait for the whole motion (also for Trajectory publisher) so that the interfaces (e.g., interactive marker) are initialized at the reached initial pose
+  if (s > 1.0) {
     s = 1.0;
     lastLoop = true;
   }
@@ -497,8 +499,11 @@ void CartController::sendIntJntCmd(CartController::s_initCmd initCmd) {
       RCLCPP_ERROR_STREAM_ONCE(node->get_logger(), "Torque publisher is not implemented...");
       break;
     case PublisherType::Trajectory:
-      if (s < 1.0)
+      // send the initial trajectory only once; re-sending would restart its duration
+      if (!s_moveInitPos.isSentTrj && s < 1.0) {
         sendTrajectoryCmd(s_moveInitPos.q_des.data, T);
+        s_moveInitPos.isSentTrj = true;
+      }
 
       break;
     case PublisherType::TrajectoryAction:

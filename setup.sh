@@ -6,10 +6,11 @@ REPOS_FILE="${SCRIPT_DIR}/ohrc_repos.repos"
 WS_SRC="$(dirname "${SCRIPT_DIR}")"
 
 # Robot -> repositories (keys in ohrc_repos.repos) required for that robot.
-ROBOTS=(franka xarm)
+ROBOTS=(franka xarm crane_x7)
 declare -A ROBOT_REPOS=(
     [franka]="franka_ros2 franka_description"
     [xarm]="xarm_ros2"
+    [crane_x7]="crane_x7_ros crane_x7_description"
 )
 
 select_interactive() {
