@@ -502,6 +502,22 @@ int MyIK::CartToJntVel_qp(const std::vector<KDL::JntArray>& q_cur, const std::ve
   std::vector<Matrix<double, 6, 1>> vs(nRobot);
   std::vector<Affine3d> Ts(nRobot);
 
+  // det(J*J^T) scales with the 6th power of the robot size, so normalize it by its value at the rest pose
+  if (detJJt_ref.size() != nRobot) {
+    detJJt_ref.resize(nRobot);
+    for (size_t i = 0; i < nRobot; i++) {
+      KDL::Jacobian jac(myIKs[i]->getNJnt());
+      bool useRest = i < q_rest.size() && q_rest[i].rows() == myIKs[i]->getNJnt();
+      myIKs[i]->JntToJac(useRest ? q_rest[i] : q_cur[i], jac);
+      detJJt_ref[i] = (jac.data * jac.data.transpose()).determinant();
+      if (!std::isfinite(detJJt_ref[i]) || detJJt_ref[i] < 1.0e-12) {
+        myIKs[i]->JntToJac(q_cur[i], jac);
+        detJJt_ref[i] = std::max((jac.data * jac.data.transpose()).determinant(), 1.0e-12);
+      }
+      RCLCPP_INFO_STREAM(node->get_logger(), "Reference det(J*J^T) for singularity damping of robot " << i << ": " << detJJt_ref[i]);
+    }
+  }
+
   // Removed unused proportional gain initialization code to reduce clutter.
   for (size_t i = 0; i < nRobot; i++) {
     KDL::Jacobian jac(myIKs[i]->getNJnt());
@@ -520,7 +536,7 @@ int MyIK::CartToJntVel_qp(const std::vector<KDL::JntArray>& q_cur, const std::ve
 
     // derivative of manipulability w.r.t. end effector position
     double delta_w = this->getDeltaManipulability(myIKs[i], q_cur[i], Js[i], vs[i]);
-    w_damp[i] = 1.0 / (Js[i] * Js[i].transpose()).determinant() * 1.0e-1 * std::pow(0.5, delta_w);  // TODO; think about the marging way
+    w_damp[i] = detJJt_ref[i] / (Js[i] * Js[i].transpose()).determinant() * 1.0e-1 * std::pow(0.5, delta_w);  // TODO; think about the marging way
 
     // std::cout << "Manipulability gradient: " << w_damp[i] << std::endl;
 

@@ -87,6 +87,9 @@ class MyIK : public std::enable_shared_from_this<MyIK> {
 
   std::vector<KDL::JntArray> q_rest;
 
+  // det(J*J^T) at the rest pose of each robot, used to make the singularity damping scale-invariant
+  std::vector<double> detJJt_ref;
+
   int nAddObj = 2;
   Eigen::Matrix<double, Eigen::Dynamic, 1> primalVariable;
 
