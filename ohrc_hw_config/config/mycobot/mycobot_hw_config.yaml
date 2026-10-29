@@ -1,9 +1,13 @@
-mycobot:
-  chain_start: "base_link" # base frame of commands
-  chain_end: "link6_flange" # target eff frame
+/**:
+  ros__parameters:
+    mycobot:
+      chain_start: "g_base" # base frame of commands (base link of mycobot_description/urdf/mycobot_280_m5)
+      chain_end: "joint6_flange" # target eff frame
 
-  publisher: "Trajectory" # "Position" or "Velocity" or "Trajectory" or "TrajectoryAction"
-  topic_namespace: "arm_controller"
+      publisher: "Trajectory" # "Position" or "Velocity" or "Trajectory" or "TrajectoryAction"
+      topic_namespace: "arm_controller" # joint_trajectory_controller/JointTrajectoryController in mycobot_controllers.yaml
 
-  initIKAngle: [0, 0., 0, 0, 0, 0, 0] # size of this should be equal to DoF
-  initial_pose: [0.2, 0., 0.3, 0, 0, 0] # [x, y, z, roll, pitch, yaw]
+      initIKAngle: [0.0, -0.6, -1.0, 0.03, 0.0, 0.0] # size of this should be equal to DoF
+
+      # initial_pose_frame: test # default frame is same as chain_start
+      initial_pose: [0.2, 0.0, 0.2, 3.141592, 0.0, 1.570796] # [x, y, z, roll, pitch, yaw], flange pointing down

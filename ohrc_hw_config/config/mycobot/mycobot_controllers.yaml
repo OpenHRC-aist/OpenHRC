@@ -1,0 +1,29 @@
+# ros2_control controllers for the myCobot 280 (M5) mock-hardware simulation used by OpenHRC
+# (see mycobot_sim_control.launch.py).
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # Receives the trajectory_msgs/JointTrajectory commands published by OpenHRC
+    # on /arm_controller/joint_trajectory.
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+arm_controller:
+  ros__parameters:
+    joints:
+      - joint2_to_joint1
+      - joint3_to_joint2
+      - joint4_to_joint3
+      - joint5_to_joint4
+      - joint6_to_joint5
+      - joint6output_to_joint6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    allow_nonzero_velocity_at_trajectory_end: true
