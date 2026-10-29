@@ -46,7 +46,7 @@ In the following instruction, the ros2 workspace directory is assumed to be `~/r
 mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src
 git clone https://github.com/OpenHRC/OpenHRC.git -b ros2 --recursive
 ./OpenHRC/setup.sh
-rosdep update && rosdep install -i -y --from-paths ./ --ignore-src --skip-keys franka_mobile_sensors
+rosdep update && rosdep install -i -y --from-paths ./ --ignore-src --skip-keys
 ```
 
 
