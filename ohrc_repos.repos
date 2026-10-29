@@ -19,3 +19,11 @@ repositories:
     type: git
     url: https://github.com/rt-net/crane_x7_description.git
     version: humble
+  mycobot_ros2:
+    type: git
+    url: https://github.com/elephantrobotics/mycobot_ros2.git
+    version: humble
+  warehouse_ros_mongo:
+    type: git
+    url: https://github.com/ros-planning/warehouse_ros_mongo.git
+    version: ros2

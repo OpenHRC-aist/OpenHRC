@@ -6,12 +6,30 @@ REPOS_FILE="${SCRIPT_DIR}/ohrc_repos.repos"
 WS_SRC="$(dirname "${SCRIPT_DIR}")"
 
 # Robot -> repositories (keys in ohrc_repos.repos) required for that robot.
-ROBOTS=(franka xarm crane_x7)
+ROBOTS=(franka xarm crane_x7 mycobot)
 declare -A ROBOT_REPOS=(
     [franka]="franka_ros2 franka_description"
     [xarm]="xarm_ros2"
     [crane_x7]="crane_x7_ros crane_x7_description"
+    [mycobot]="mycobot_ros2 warehouse_ros_mongo"
 )
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [robot ...]
+
+Imports the repositories and dependencies for the selected robots.
+Without arguments, an interactive menu is shown.
+
+Robots (pass the name as an argument, or the number in the menu):
+  0) all
+  1) franka
+  2) xarm
+  ...
+
+Example: $(basename "$0") franka xarm
+EOF
+}
 
 select_interactive() {
     echo "Select the robots to install (space-separated numbers):" >&2
@@ -75,6 +93,7 @@ done
 TOTAL=1
 has_robot franka && TOTAL=$((TOTAL + 1))
 has_robot xarm && TOTAL=$((TOTAL + 2))
+has_robot mycobot && TOTAL=$((TOTAL + 3))
 STEP=0
 
 progress() {
@@ -124,6 +143,31 @@ if has_robot xarm; then
         git pull --recurse-submodules --progress
     )
     progress "Pulled xarm_ros2 updates"
+fi
+
+if has_robot mycobot; then
+    if pip3 show pymycobot &>/dev/null; then
+        progress "pymycobot already installed"
+    else
+        pip3 install --user pymycobot
+        progress "Installed pymycobot"
+    fi
+
+    MYCOBOT_REQS="${WS_SRC}/mycobot_ros2/requirements.txt"
+    if [[ ! -f "${MYCOBOT_REQS}" ]]; then
+        echo "Not found: ${MYCOBOT_REQS}" >&2
+        exit 1
+    fi
+    pip3 install --user -r "${MYCOBOT_REQS}"
+    progress "Installed mycobot_ros2 Python requirements"
+
+    # warehouse_ros_mongo needs the MongoDB C++ driver to build.
+    if dpkg -s libmongoclient-dev &>/dev/null; then
+        progress "libmongoclient-dev already installed"
+    else
+        sudo apt-get install -y libmongoclient-dev
+        progress "Installed libmongoclient-dev"
+    fi
 fi
 
 echo "Done."
