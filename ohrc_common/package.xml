@@ -11,7 +11,6 @@
 
   <depend>rclcpp</depend>
   <depend>geometry_msgs</depend>
-  <depend>python-is-python3</depend>
   <depend>tf2_eigen</depend>
   <depend>kdl_parser</depend>
   <depend>urdf</depend>
