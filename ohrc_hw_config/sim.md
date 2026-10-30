@@ -16,7 +16,7 @@ ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=ur5
 ```
 
 
-## Franka Research 3
+## Franka Research 3 & Franka Emika (Panda)
 
 Run the following command to start the Franka3 gazebo simulation, which has been installed automatically with OpenHRC if selected during setup:
 
@@ -24,7 +24,13 @@ Run the following command to start the Franka3 gazebo simulation, which has been
 ros2 launch ohrc_hw_config fr3_gazebo.launch.py
 ```
 
-Then use robot:=fr3 e.g.:
+or
+
+```bash
+ros2 launch ohrc_hw_config panda_gazebo.launch.py
+```
+
+Then use robot:=fr3 or robot:=panda e.g.:
 
 ```bash
 ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=fr3
