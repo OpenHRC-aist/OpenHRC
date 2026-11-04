@@ -6,13 +6,15 @@ REPOS_FILE="${SCRIPT_DIR}/ohrc_repos.repos"
 WS_SRC="$(dirname "${SCRIPT_DIR}")"
 
 # Robot -> repositories (keys in ohrc_repos.repos) required for that robot.
-ROBOTS=(franka xarm crane_x7 mycobot)
+ROBOTS=(franka xarm crane_x7 mycobot gen3_lite)
 declare -A ROBOT_REPOS=(
     [franka]="franka_ros2 franka_description"
     [xarm]="xarm_ros2"
     [crane_x7]="crane_x7_ros crane_x7_description"
     [mycobot]="mycobot_ros2 warehouse_ros_mongo"
+    [gen3_lite]=""  # Installed from apt binaries, no source repos.
 )
+GEN3_LITE_PKG="ros-humble-kortex-bringup"
 
 usage() {
     cat <<EOF
@@ -90,10 +92,12 @@ for robot in "${SELECTED[@]}"; do
     REPOS+=("${r[@]}")
 done
 
-TOTAL=1
+TOTAL=0
+[[ ${#REPOS[@]} -gt 0 ]] && TOTAL=$((TOTAL + 1))
 has_robot franka && TOTAL=$((TOTAL + 1))
 has_robot xarm && TOTAL=$((TOTAL + 2))
 has_robot mycobot && TOTAL=$((TOTAL + 3))
+has_robot gen3_lite && TOTAL=$((TOTAL + 1))
 STEP=0
 
 progress() {
@@ -110,6 +114,7 @@ progress() {
 echo "Starting setup for: ${SELECTED[*]}"
 cd "${WS_SRC}"
 
+if [[ ${#REPOS[@]} -gt 0 ]]; then
 # vcs import has no name filter, so feed it a filtered copy of the .repos file.
 python3 - "${REPOS_FILE}" "${REPOS[@]}" <<'PY' | vcs import .
 import sys
@@ -125,6 +130,7 @@ yaml.safe_dump({"repositories": {name: repos[name] for name in wanted}},
                sys.stdout, sort_keys=False)
 PY
 progress "Imported repos: ${REPOS[*]}"
+fi
 
 if has_robot franka; then
     touch franka_ros2/franka_mobile_sensors/COLCON_IGNORE
@@ -167,6 +173,15 @@ if has_robot mycobot; then
     else
         sudo apt-get install -y libmongoclient-dev
         progress "Installed libmongoclient-dev"
+    fi
+fi
+
+if has_robot gen3_lite; then
+    if dpkg -s "${GEN3_LITE_PKG}" &>/dev/null; then
+        progress "${GEN3_LITE_PKG} already installed"
+    else
+        sudo apt-get install -y "${GEN3_LITE_PKG}"
+        progress "Installed ${GEN3_LITE_PKG}"
     fi
 fi
 

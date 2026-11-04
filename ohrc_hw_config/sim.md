@@ -37,18 +37,18 @@ ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=fr3
 ```
 
 
-## xARM
+## Gen3 Lite
 
-Run the following command to start the xArm gazebo simulation, which has been installed automatically with OpenHRC if selected during setup:
+Run the following command to start the Gen3 Lite gazebo simulation, which has been installed automatically with OpenHRC if selected during setup:
 
 ```bash
-ros2 ros2 launch ohrc_hw_config bringup_xarm6_sim.launch.py
+ros2 launch kortex_bringup gen3_lite.launch.py   robot_ip:=yyy.yyy.yyy.yyy   use_fake_hardware:=true
 ```
 
-Then use robot:=fr3 e.g.:
+Then use robot:=gen3_lite e.g.:
 
 ```bash
-ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=xarm6
+ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=gen3_lite
 ```
 
 
@@ -79,4 +79,19 @@ Then use robot:=mycobot e.g.:
 
 ```bash
 ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=mycobot
+```
+
+
+## xARM
+
+Run the following command to start the xArm gazebo simulation, which has been installed automatically with OpenHRC if selected during setup:
+
+```bash
+ros2 ros2 launch ohrc_hw_config bringup_xarm6_sim.launch.py
+```
+
+Then use robot:=xarm6 e.g.:
+
+```bash
+ros2 launch ohrc_teleoperation marker_teleoperation.launch.py robot:=xarm6
 ```

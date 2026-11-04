@@ -123,8 +123,9 @@ If you use this package in your academic research, we would appreciate it if you
 ## License
 This software is released under MIT.
 
-## Author
+## Authors
 Shunki Itadera (https://itadera.github.io/) - Researcher at AIST, Japan
+Emilio Soriano - Technical Staff at AIST, Japan
 
 We welcome any feedback and contributions. Please feel free to contact us if you have any questions or comments.
 
